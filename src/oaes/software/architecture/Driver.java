@@ -7,6 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static oaes.software.architecture.ExamPattern.showPatterns;
 import static oaes.software.architecture.JdbcConnect.*;
 
 public class Driver {
@@ -35,9 +36,11 @@ public class Driver {
             {
                 case 1 :
                     ExamPattern pattern = new ExamPattern();
-                    pattern = getExamPattern();
-                    if(pattern == null)
+                    pattern.getExamPattern();
+                    if(pattern.getMcqCount()*2+ pattern.getMsqCount()*3+ pattern.getDescCount()*5 != pattern.getTotalMarks()) {
+                        System.out.println("Total Marks is not correct ! Please check.");
                         break;
+                    }
                     System.out.println("Exam Pattern Created with ID " +pattern.getPatternName());
                     examPatterns.add(pattern);
                     break;
@@ -54,7 +57,7 @@ public class Driver {
                     System.out.println("Select Exam Pattern Serial No. to Proceed :");
                     int patternIndex = scanner.nextInt();
                     ExamPattern selectedPattern = examPatterns.get(patternIndex-1);
-                    QuestionPaper qp = new QuestionPaper();
+                    QuestionPaper qp ;
                     qp = generateQuestionPaper(selectedPattern);
                     if(qp == null)
                         break;
@@ -110,31 +113,7 @@ public class Driver {
         assesmentCenters.add(assesmentCenter2);
         assesmentCenters.add(assesmentCenter3);
     }
-    static ExamPattern getExamPattern()
-    {
-        ExamPattern examPattern = new ExamPattern();
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("");
-        examPattern.setPatternID("EXAM101");
-        System.out.println("Enter Exam Pattern Name");
-        examPattern.setPatternName(scanner.nextLine());
-        System.out.println("Enter Course Name");
-        examPattern.setSubject(scanner.nextLine());
-        System.out.println("Enter Total Marks");
-        examPattern.setTotalMarks(scanner.nextInt());
-        System.out.println("Enter No of MCQ :");
-        examPattern.setMcqCount(scanner.nextInt());
-        System.out.println("Enter No of MSQ :");
-        examPattern.setMsqCount(scanner.nextInt());
-        System.out.println("Enter No of Descriptive Questions :");
-        examPattern.setDescCount(scanner.nextInt());
-        if(examPattern.getMcqCount()*2+ examPattern.getMsqCount()*3+ examPattern.getDescCount()*5 != examPattern.getTotalMarks())
-        {
-            System.out.println("Total Marks is not correct ! Please check.");
-            return null;
-        }
-        return examPattern;
-    }
+
     static Mcq[] getMcqs(ExamPattern examPattern) throws SQLException{
         String query = "SELECT * FROM mcqs WHERE subject = \'"+examPattern.getSubject()+"\' ORDER BY RAND() LIMIT "+ examPattern.getMcqCount();
         Mcq[] mcqs = new Mcq[examPattern.getMcqCount()];
@@ -268,13 +247,7 @@ public class Driver {
         questionPaper.setQpName(examPattern.getPatternName()+":"+examPattern.getSubject());
         return questionPaper;
     }
-    public static void showPatterns(  ArrayList<ExamPattern> examPatterns){
-        System.out.println("-------------Existing Exam Patterns--------------");
-        for(int i = 0 ; i<examPatterns.size(); i++){
-            System.out.println(String.valueOf(i+1)+"." + examPatterns.get(i).getPatternName()) ;
-        }
-        System.out.println("--------------------------------------------------");
-    }
+
     public static void displayQuestionPaper(QuestionPaper qp){
         int index = 1;
         System.out.println("------------"+qp.getExamPattern().getPatternName()+"-----------------------");

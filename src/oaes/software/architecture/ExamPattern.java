@@ -1,5 +1,8 @@
 package oaes.software.architecture;
 
+import java.util.ArrayList;
+import java.util.Scanner;
+
 /**
  * @Author : Group 19
  * This class gives a format of creating a exam pattern based on which a question paper will be generated.
@@ -115,4 +118,30 @@ public class ExamPattern {
                 ", topics='" + topics + '\'' +
                 '}';
     }
+    public void getExamPattern()
+    {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("");
+        this.setPatternID("EXAM101");
+        System.out.println("Enter Exam Pattern Name");
+        this.setPatternName(scanner.nextLine());
+        System.out.println("Enter Course Name");
+        this.setSubject(scanner.nextLine());
+        System.out.println("Enter Total Marks");
+        this.setTotalMarks(scanner.nextInt());
+        System.out.println("Enter No of MCQ :");
+        this.setMcqCount(scanner.nextInt());
+        System.out.println("Enter No of MSQ :");
+        this.setMsqCount(scanner.nextInt());
+        System.out.println("Enter No of Descriptive Questions :");
+        this.setDescCount(scanner.nextInt());
+    }
+    public static void showPatterns(ArrayList<ExamPattern> examPatterns){
+        System.out.println("-------------Existing Exam Patterns--------------");
+        for(int i = 0 ; i<examPatterns.size(); i++){
+            System.out.println(String.valueOf(i+1)+"." + examPatterns.get(i).getPatternName()) ;
+        }
+        System.out.println("--------------------------------------------------");
+    }
+
 }
