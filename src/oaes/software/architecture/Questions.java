@@ -9,6 +9,9 @@ public class Questions {
     private String topic;
     private String subject;
     private String qType;
+    private String QuestionText;
+    private int marks;
+
 
     /**
      *
@@ -17,11 +20,17 @@ public class Questions {
      * @param subject -> Course Name
      * @param qType -> question Type (MCQ,MSQ,DESC)
      */
-    public Questions(String qid, String topic, String subject, String qType) {
+    public Questions(String qid, String topic, String subject, String qType, String questionText, int marks) {
         this.qid = qid;
         this.topic = topic;
         this.subject = subject;
         this.qType = qType;
+        QuestionText = questionText;
+        this.marks = marks;
+    }
+
+    public Questions() {
+
     }
 
     public String getQid() {
@@ -54,5 +63,21 @@ public class Questions {
 
     public void setqType(String qType) {
         this.qType = qType;
+    }
+
+    public String getQuestionText() {
+        return QuestionText;
+    }
+
+    public void setQuestionText(String questionText) {
+        QuestionText = questionText;
+    }
+
+    public int getMarks() {
+        return marks;
+    }
+
+    public void setMarks(int marks) {
+        this.marks = marks;
     }
 }

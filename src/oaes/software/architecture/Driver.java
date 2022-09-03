@@ -57,12 +57,13 @@ public class Driver {
                     System.out.println("Select Exam Pattern Serial No. to Proceed :");
                     int patternIndex = scanner.nextInt();
                     ExamPattern selectedPattern = examPatterns.get(patternIndex-1);
-                    QuestionPaper qp ;
-                    qp = generateQuestionPaper(selectedPattern);
+                    QuestionPaper qp = new QuestionPaper();
+                    System.out.println("selected" + selectedPattern.getPatternName());
+                    qp.generateQuestionPaper(selectedPattern);
                     if(qp == null)
                         break;
                     questionPapers.add(qp);
-                    displayQuestionPaper(qp);
+                    qp.displayQuestionPaper();
                     break;
                 case 4:
                     if(questionPapers.size()==0)
@@ -114,185 +115,68 @@ public class Driver {
         assesmentCenters.add(assesmentCenter3);
     }
 
-    static Mcq[] getMcqs(ExamPattern examPattern) throws SQLException{
-        String query = "SELECT * FROM mcqs WHERE subject = \'"+examPattern.getSubject()+"\' ORDER BY RAND() LIMIT "+ examPattern.getMcqCount();
-        Mcq[] mcqs = new Mcq[examPattern.getMcqCount()];
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-             Statement stmt = conn.createStatement();
-        ) {
-//            System.out.println("Connected to DB");
-            ResultSet resultSet = stmt.executeQuery(query);
-            int index = 0;
-
-            while (resultSet.next()) {
-                String topic = resultSet.getString("topic");
-                String subject = resultSet.getString("subject");
-                String qType ="MCQ";
-                String questionText = resultSet.getString("question_text");
-                String options = resultSet.getString("options");
-                String ans = resultSet.getString("ans");
-                int marks = resultSet.getInt("marks");
-               Mcq question = new Mcq(String.valueOf(index),topic,subject,qType,questionText,options,ans,marks);
-                mcqs[index++] = question;
-            }
-            if(index < examPattern.getMcqCount())
-            {
-                System.out.println("Insufficient MCQ Available in Item Bank");
-                System.out.println("Total Required :"+examPattern.getMcqCount() +"  Total Available : "+index);
-                return null;
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return mcqs;
-    }
-    static Msq[] getMsqs(ExamPattern examPattern) throws SQLException {
-        String query = "SELECT * FROM msqs WHERE subject = \'" + examPattern.getSubject() + "\' ORDER BY RAND() LIMIT " + examPattern.getMcqCount();
-        Msq[] msqs = new Msq[examPattern.getMsqCount()];
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-             Statement stmt = conn.createStatement();
-        ) {
-
-            ResultSet resultSet = stmt.executeQuery(query);
-            int index = 0;
-            while (resultSet.next()) {
-                String topic = resultSet.getString("topic");
-                String subject = resultSet.getString("subject");
-                String qType = "MSQ";
-                String questionText = resultSet.getString("question_text");
-                String options = resultSet.getString("options");
-                String ans = resultSet.getString("ans");
-                int marks = resultSet.getInt("marks");
-                Msq question = new Msq(String.valueOf(index), topic, subject, qType, questionText, options, ans, marks);
-                msqs[index++] = question;
-            }
-            if(index < examPattern.getMsqCount())
-            {
-                System.out.println("Insufficient MSQ Available in Item Bank");
-                System.out.println("Total Required :"+examPattern.getMsqCount() +"  Total Available : "+index);
-                return null;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return msqs;
-    }
-    static Desc[] getDesc(ExamPattern examPattern) throws SQLException {
-        String query = "SELECT * FROM msqs WHERE subject = \'" + examPattern.getSubject() + "\' ORDER BY RAND() LIMIT " + examPattern.getDescCount();
-        Desc[] descs = new Desc[examPattern.getDescCount()];
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-             Statement stmt = conn.createStatement();
-        ) {
-
-            ResultSet resultSet = stmt.executeQuery(query);
-            int index = 0;
-            while (resultSet.next()) {
-                String topic = resultSet.getString("topic");
-                String subject = resultSet.getString("subject");
-                String qType = "DESC";
-                String questionText = resultSet.getString("question_text");
+//
+//    static Msq[] getMsqs(ExamPattern examPattern) throws SQLException {
+//        String query = "SELECT * FROM msqs WHERE subject = \'" + examPattern.getSubject() + "\' ORDER BY RAND() LIMIT " + examPattern.getMcqCount();
+//        Msq[] msqs = new Msq[examPattern.getMsqCount()];
+//        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+//             Statement stmt = conn.createStatement();
+//        ) {
+//
+//            ResultSet resultSet = stmt.executeQuery(query);
+//            int index = 0;
+//            while (resultSet.next()) {
+//                String topic = resultSet.getString("topic");
+//                String subject = resultSet.getString("subject");
+//                String qType = "MSQ";
+//                String questionText = resultSet.getString("question_text");
 //                String options = resultSet.getString("options");
 //                String ans = resultSet.getString("ans");
-                int marks = resultSet.getInt("marks");
-                Desc question = new Desc(String.valueOf(index), topic, subject, qType, questionText,marks);
-                descs[index++] = question;
-            }
-            if(index < examPattern.getDescCount())
-            {
-                System.out.println("Insufficient Descriptive Questions Available in Item Bank");
-                System.out.println("Total Required :"+examPattern.getMcqCount() +"  Total Available : "+index);
-                return null;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return descs;
-    }
-    public static QuestionPaper generateQuestionPaper(ExamPattern examPattern) throws SQLException {
-        QuestionPaper questionPaper = new QuestionPaper();
-        int noOfMcq = examPattern.getMcqCount();
-        int noOfmsq = examPattern.getMsqCount();
-        int noOfdesc = examPattern.getDescCount();
-
-        if(noOfMcq>0)
-        {
-            Mcq[] mcqs = new Mcq[noOfMcq];
-            mcqs = getMcqs(examPattern);
-            if(mcqs == null) {
-
-                return null;
-            }
-            questionPaper.setMcqs(mcqs);
-        }
-        if(noOfmsq>0)
-        {
-            Msq[] msqs = new Msq[noOfmsq];
-            msqs=getMsqs(examPattern);
-            if(msqs == null) {
-                return null;
-            }
-            questionPaper.setMsqs(msqs);
-        }
-        if(noOfdesc > 0){
-            Desc[] desc = new Desc[noOfdesc];
-            desc=getDesc(examPattern);
-            if(desc == null) {
-                return null;
-            }
-            questionPaper.setDesc(desc);
-        }
-        questionPaper.setExamPattern(examPattern);
-        questionPaper.setSetId('A');
-        questionPaper.setQpName(examPattern.getPatternName()+":"+examPattern.getSubject());
-        return questionPaper;
-    }
-
-    public static void displayQuestionPaper(QuestionPaper qp){
-        int index = 1;
-        System.out.println("------------"+qp.getExamPattern().getPatternName()+"-----------------------");
-        System.out.println("Course Name :" + qp.getExamPattern().getSubject() +"     "+"Total Marks : " + qp.getExamPattern().getTotalMarks());
-        System.out.println("Set :" + qp.getSetId());
-        System.out.println("---------------------------------------------------------------------------");
-        if(qp.getExamPattern().getMcqCount()>0)
-        {
-            System.out.println("Section : Multiple Choice Questions [2 Marks Each]");
-            Mcq[] mcqs = qp.getMcqs();
-            for(int i = 0 ; i<mcqs.length; i++)
-            {
-                System.out.println(String.valueOf(index)+"."+mcqs[i].getQuestionText());
-                System.out.println(mcqs[i].getOptions());
-                System.out.println("");
-                index++;
-            }
-        }
-        System.out.println("-------------------------------------------------------------------");
-        if(qp.getExamPattern().getMsqCount()>0)
-        {
-            System.out.println("Section : Multiple Select Questions  [3 Marks Each]");
-            Msq[] msqs = qp.getMsqs();
-            for(int i = 0 ; i<msqs.length; i++)
-            {
-                System.out.println(String.valueOf(index)+"."+msqs[i].getQuestionText());
-                System.out.println(msqs[i].getOptions());
-                System.out.println("");
-                index++;
-            }
-        }
-
-        System.out.println("-------------------------------------------------------------------");
-        if(qp.getExamPattern().getDescCount()>0)
-        {
-            System.out.println("Section : Descriptive Questions [5 Marks Each]");
-            Desc[] desc = qp.getDesc();
-            for(int i = 0 ; i<desc.length; i++)
-            {
-                System.out.println(String.valueOf(index)+"."+desc[i].getQuestionText());
-                System.out.println("");
-                index++;
-            }
-        }
-
-    }
+//                int marks = resultSet.getInt("marks");
+//                Msq question = new Msq(String.valueOf(index), topic, subject, qType, questionText, options, ans, marks);
+//                msqs[index++] = question;
+//            }
+//            if(index < examPattern.getMsqCount())
+//            {
+//                System.out.println("Insufficient MSQ Available in Item Bank");
+//                System.out.println("Total Required :"+examPattern.getMsqCount() +"  Total Available : "+index);
+//                return null;
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return msqs;
+//    }
+//    static Desc[] getDesc(ExamPattern examPattern) throws SQLException {
+//        String query = "SELECT * FROM msqs WHERE subject = \'" + examPattern.getSubject() + "\' ORDER BY RAND() LIMIT " + examPattern.getDescCount();
+//        Desc[] descs = new Desc[examPattern.getDescCount()];
+//        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+//             Statement stmt = conn.createStatement();
+//        ) {
+//
+//            ResultSet resultSet = stmt.executeQuery(query);
+//            int index = 0;
+//            while (resultSet.next()) {
+//                String topic = resultSet.getString("topic");
+//                String subject = resultSet.getString("subject");
+//                String qType = "DESC";
+//                String questionText = resultSet.getString("question_text");
+////                String options = resultSet.getString("options");
+////                String ans = resultSet.getString("ans");
+//                int marks = resultSet.getInt("marks");
+//                Desc question = new Desc(String.valueOf(index), topic, subject, qType, questionText,marks);
+//                descs[index++] = question;
+//            }
+//            if(index < examPattern.getDescCount())
+//            {
+//                System.out.println("Insufficient Descriptive Questions Available in Item Bank");
+//                System.out.println("Total Required :"+examPattern.getMcqCount() +"  Total Available : "+index);
+//                return null;
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return descs;
+//    }
 
 }

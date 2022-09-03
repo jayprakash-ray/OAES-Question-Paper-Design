@@ -1,16 +1,19 @@
 package oaes.software.architecture.QuestionTypes;
 
+import oaes.software.architecture.ExamPattern;
+import oaes.software.architecture.JdbcConnect;
 import oaes.software.architecture.Questions;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  * Mcq Class inherits Questions class.
  * It respresents a format in which mcq question will be manipulated i.e blueprint for MCQ Type Questions.
  */
 public class Mcq extends Questions {
-    private String questionText;
     private String options;
     private String ans;
-    private int marks;
     /**
      * @param qid -> unique question id of a question
      * @param questionText -> Question Text
@@ -18,19 +21,21 @@ public class Mcq extends Questions {
      * @param ans -> Correct Answer for the question
      * @param marks -> marks associated with the question
      */
-    public Mcq(String qid, String topic, String subject, String qType, String questionText, String options, String ans, int marks) {
-        super(qid, topic, subject, qType);
-        this.questionText = questionText;
+
+    public Mcq(String qid, String topic, String subject, String qType, String questionText, int marks, String options, String ans) {
+        super(qid, topic, subject, qType, questionText, marks);
         this.options = options;
         this.ans = ans;
-        this.marks = marks;
-    }
-    public String getQuestionText() {
-        return questionText;
     }
 
-    public void setQuestionText(String questionText) {
-        this.questionText = questionText;
+    public Mcq() {
+        super();
+    }
+
+    public static ArrayList<Questions> getMcqs(ExamPattern examPattern) throws SQLException {
+        JdbcConnect jdbcConnect = new JdbcConnect();
+        //Delegation of Heavy Object -> Proxy Pattern
+        return jdbcConnect.getQuestionByType(examPattern,"MCQ");
     }
 
     public String getOptions() {
@@ -47,13 +52,5 @@ public class Mcq extends Questions {
 
     public void setAns(String ans) {
         this.ans = ans;
-    }
-
-    public int getMarks() {
-        return marks;
-    }
-
-    public void setMarks(int marks) {
-        this.marks = marks;
     }
 }
