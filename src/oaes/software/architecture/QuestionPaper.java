@@ -6,6 +6,7 @@ import oaes.software.architecture.QuestionTypes.Msq;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * This class represent format for QuestionPaper
@@ -94,14 +95,23 @@ public class QuestionPaper {
                 {
                         System.out.println("Section : Multiple Choice Questions [2 Marks Each]");
                        ArrayList<Questions> mcqs = this.questions.get(qindex++);
-                        for(int i = 0 ; i<mcqs.size(); i++)
-                        {
-                                Mcq mcq = (Mcq) mcqs.get(i);
+                       //Iterator Design Pattern
+                        Iterator<Questions> iterator = (Iterator<Questions>) mcqs;
+                        while(iterator.hasNext()){
+                                Mcq mcq = (Mcq) iterator.next();
                                 System.out.println(String.valueOf(index)+"."+mcq.getQuestionText());
                                 System.out.println(mcq.getOptions());
                                 System.out.println("");
                                 index++;
                         }
+//                        for(int i = 0 ; i<mcqs.size(); i++)
+//                        {
+//                                Mcq mcq = (Mcq) mcqs.get(i);
+//                                System.out.println(String.valueOf(index)+"."+mcq.getQuestionText());
+//                                System.out.println(mcq.getOptions());
+//                                System.out.println("");
+//                                index++;
+//                        }
                 }
                 System.out.println("-------------------------------------------------------------------");
                 if(this.examPattern.getMsqCount()>0)

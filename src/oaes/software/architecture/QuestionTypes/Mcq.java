@@ -1,8 +1,6 @@
 package oaes.software.architecture.QuestionTypes;
 
-import oaes.software.architecture.ExamPattern;
-import oaes.software.architecture.JdbcConnect;
-import oaes.software.architecture.Questions;
+import oaes.software.architecture.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -33,9 +31,9 @@ public class Mcq extends Questions {
     }
 
     public static ArrayList<Questions> getMcqs(ExamPattern examPattern) throws SQLException {
-        JdbcConnect jdbcConnect = new JdbcConnect();
+        JdbcConnection jdbcConnection = new JdbcConnectionProxy();
         //Delegation of Heavy Object -> Proxy Pattern
-        return jdbcConnect.getQuestionByType(examPattern,"MCQ");
+        return jdbcConnection.getQuestionByType(examPattern,"MCQ");
     }
 
     public String getOptions() {
