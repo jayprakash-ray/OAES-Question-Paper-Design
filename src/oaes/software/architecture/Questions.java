@@ -1,5 +1,7 @@
 package oaes.software.architecture;
 
+import java.util.ArrayList;
+
 /**
  * This class act as a base class for all different type of questions , various common properties of questions are
  * members of this class
@@ -32,6 +34,7 @@ public class Questions {
     public Questions() {
 
     }
+
 
     public String getQid() {
         return qid;

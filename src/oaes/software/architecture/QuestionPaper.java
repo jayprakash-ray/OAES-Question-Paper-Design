@@ -1,6 +1,5 @@
 package oaes.software.architecture;
 
-import oaes.software.architecture.QuestionTypes.Desc;
 import oaes.software.architecture.QuestionTypes.Mcq;
 import oaes.software.architecture.QuestionTypes.Msq;
 
@@ -37,6 +36,9 @@ public class QuestionPaper {
                 questionFactory = new QuestionFactory();
         }
 
+        public Iterator createIterator(ArrayList<Questions> questions) {
+                return new QuestionIterator(questions);
+        }
         public QuestionPaper(int qid, String qpName, char setId, ExamPattern examPattern, ArrayList<ArrayList<Questions>> questions, QuestionFactory questionFactory) {
                 this.qid = qid;
                 this.qpName = qpName;
@@ -95,10 +97,11 @@ public class QuestionPaper {
                 {
                         System.out.println("Section : Multiple Choice Questions [2 Marks Each]");
                        ArrayList<Questions> mcqs = this.questions.get(qindex++);
+
                        //Iterator Design Pattern
-                        Iterator<Questions> iterator = (Iterator<Questions>) mcqs;
-                        while(iterator.hasNext()){
-                                Mcq mcq = (Mcq) iterator.next();
+                        Iterator mcqIterator = createIterator(mcqs);
+                        while(mcqIterator.hasNext()){
+                                Mcq mcq = (Mcq) mcqIterator.next();
                                 System.out.println(String.valueOf(index)+"."+mcq.getQuestionText());
                                 System.out.println(mcq.getOptions());
                                 System.out.println("");
@@ -118,14 +121,22 @@ public class QuestionPaper {
                 {
                         System.out.println("Section : Multiple Select Questions  [3 Marks Each]");
                         ArrayList<Questions> msqs = this.questions.get(qindex++);
-                        for(int i = 0 ; i<msqs.size(); i++)
-                        {
-                                Msq msq = (Msq) msqs.get(i);
+                        Iterator msqIterator = createIterator(msqs);
+                        while(msqIterator.hasNext()){
+                                Msq msq = (Msq) msqIterator.next();
                                 System.out.println(String.valueOf(index)+"."+msq.getQuestionText());
                                 System.out.println(msq.getOptions());
                                 System.out.println("");
                                 index++;
                         }
+//                        for(int i = 0 ; i<msqs.size(); i++)
+//                        {
+//                                Msq msq = (Msq) msqs.get(i);
+//                                System.out.println(String.valueOf(index)+"."+msq.getQuestionText());
+//                                System.out.println(msq.getOptions());
+//                                System.out.println("");
+//                                index++;
+//                        }
                 }
 
 //                System.out.println("-------------------------------------------------------------------");
