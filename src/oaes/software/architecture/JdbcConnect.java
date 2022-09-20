@@ -11,7 +11,7 @@ public class JdbcConnect {
     static final String USER = "root";
     static final String PASS = "Jay@1998";
 
-     public ArrayList<Questions> getQuestionByType(ExamPattern examPattern,String type) throws SQLException{
+     public ArrayList<Questions> getQuestionByType(ExamPattern examPattern, String type) throws SQLException{
          String table = "mcqs";
          int count = 0;
          if(type == "MCQ")
@@ -45,16 +45,17 @@ public class JdbcConnect {
                 String options = resultSet.getString("options");
                 String ans = resultSet.getString("ans");
                 int marks = resultSet.getInt("marks");
-                if(type == "MCQ")
-                {
-                    Mcq question = new Mcq(String.valueOf(index),topic,subject,qType,questionText,marks,options,ans);
-                    qs.add(question);
-                }
-                if(type == "MSQ")
-                {
-                    Msq question = new Msq(String.valueOf(index),topic,subject,qType,questionText,marks,options,ans);
-                    qs.add(question);
-                }
+                Questions question = new Msq(String.valueOf(index),topic,subject,qType,questionText,marks,options,ans);
+                qs.add(question);
+//                if(type == "MCQ")
+//                {
+//                    Questions question = new Mcq(String.valueOf(index),topic,subject,qType,questionText,marks,options,ans);
+//                    qs.add(question);
+//                }
+//                if(type == "MSQ")
+//                {
+//
+//                }
                 index++;
             }
             System.out.println("qs size" + qs.size());

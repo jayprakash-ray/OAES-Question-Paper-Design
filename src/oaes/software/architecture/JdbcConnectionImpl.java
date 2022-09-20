@@ -1,5 +1,6 @@
 package oaes.software.architecture;
 
+import oaes.software.architecture.QuestionTypes.Desc;
 import oaes.software.architecture.QuestionTypes.Mcq;
 import oaes.software.architecture.QuestionTypes.Msq;
 
@@ -31,11 +32,11 @@ public class JdbcConnectionImpl implements JdbcConnection {
             count = examPattern.getMsqCount();
         }
         else{
-            table = "Desc";
+            table = "descriptive";
             count = examPattern.getDescCount();
         }
 
-        String query = "SELECT * FROM "+ table +" WHERE subject = \'"+examPattern.getSubject()+"\' ORDER BY RAND() LIMIT "+ examPattern.getMcqCount();
+        String query = "SELECT * FROM "+ table +" WHERE subject = \'"+examPattern.getSubject()+"\' ORDER BY RAND() LIMIT "+ count;
         ArrayList<Questions> qs = new ArrayList<Questions>();
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
              Statement stmt = conn.createStatement();
@@ -50,17 +51,26 @@ public class JdbcConnectionImpl implements JdbcConnection {
                 String subject = resultSet.getString("subject");
                 String qType =type;
                 String questionText = resultSet.getString("question_text");
-                String options = resultSet.getString("options");
-                String ans = resultSet.getString("ans");
+
+
                 int marks = resultSet.getInt("marks");
                 if(type == "MCQ")
                 {
-                    Mcq question = new Mcq(String.valueOf(index),topic,subject,qType,questionText,marks,options,ans);
+                    String options = resultSet.getString("options");
+                    String ans = resultSet.getString("ans");
+                    Questions question = new Mcq(String.valueOf(index),topic,subject,qType,questionText,marks,options,ans);
                     qs.add(question);
                 }
-                if(type == "MSQ")
+                else if(type == "MSQ")
                 {
-                    Msq question = new Msq(String.valueOf(index),topic,subject,qType,questionText,marks,options,ans);
+                    String options = resultSet.getString("options");
+                    String ans = resultSet.getString("ans");
+                    Questions question = new Msq(String.valueOf(index),topic,subject,qType,questionText,marks,options,ans);
+                    qs.add(question);
+                }
+                else if(type == "DESC")
+                {
+                    Questions question = new Desc(String.valueOf(index),topic,subject,qType,questionText,marks);
                     qs.add(question);
                 }
                 index++;

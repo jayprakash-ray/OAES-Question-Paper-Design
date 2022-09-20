@@ -1,9 +1,11 @@
 package oaes.software.architecture;
 
+import oaes.software.architecture.QuestionTypes.Desc;
 import oaes.software.architecture.QuestionTypes.Mcq;
 import oaes.software.architecture.QuestionTypes.Msq;
 
 import java.sql.SQLException;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -52,7 +54,7 @@ public class QuestionPaper {
         public void generateQuestionPaper(ExamPattern examPattern) throws SQLException {
                 int noOfMcq = examPattern.getMcqCount();
                 int noOfmsq = examPattern.getMsqCount();
-//                int noOfdesc = examPattern.getDescCount();
+                int noOfdesc = examPattern.getDescCount();
 //                System.out.println("In Generate QP");
                 QuestionFactory questionFactory = new QuestionFactory();
                 if(noOfMcq>0)
@@ -73,15 +75,16 @@ public class QuestionPaper {
                                 this.questions = new ArrayList<>();
                         this.questions.add(qs);
                 }
-                System.out.println("Size of questions "+ questions.size());
-//                if(noOfdesc > 0){
-//                        Desc[] desc = new Desc[noOfdesc];
-//                        desc=getDesc(examPattern);
-//                        if(desc == null) {
-//                                return null;
-//                        }
-//                        questionPaper.setDesc(desc);
-//                }
+//                System.out.println("Size of questions "+ questions.size());
+                 if(noOfdesc>0)
+                {
+                        ArrayList<Questions> qs = questionFactory.getQuestions("DESC",examPattern);
+                        if(qs == null)
+                                return;
+                        if(this.questions == null)
+                                this.questions = new ArrayList<>();
+                        this.questions.add(qs);
+                }
                 this.examPattern = examPattern;
                 this.setId = 'A';
                 this.qpName = examPattern.getPatternName()+":"+examPattern.getSubject();
@@ -129,30 +132,24 @@ public class QuestionPaper {
                                 System.out.println("");
                                 index++;
                         }
-//                        for(int i = 0 ; i<msqs.size(); i++)
-//                        {
-//                                Msq msq = (Msq) msqs.get(i);
-//                                System.out.println(String.valueOf(index)+"."+msq.getQuestionText());
-//                                System.out.println(msq.getOptions());
-//                                System.out.println("");
-//                                index++;
-//                        }
+
                 }
 
-//                System.out.println("-------------------------------------------------------------------");
-//                if(this.examPattern.getDescCount()>0)
-//
-//                {
-//                        System.out.println("Section : Descriptive Questions [5 Marks Each]");
-//                        Desc[] desc = this.getDesc();
-//                        for(int i = 0 ; i<desc.length; i++)
-//                        {
-//                                System.out.println(String.valueOf(index)+"."+desc[i].getQuestionText());
-//                                System.out.println("");
-//                                index++;
-//                        }
-//                }
+                System.out.println("-------------------------------------------------------------------");
+                if(this.examPattern.getDescCount()>0)
+                {
+                        System.out.println("Section : Descriptive Questions [5 Marks Each]");
+                        ArrayList<Questions> desc = this.questions.get(qindex++);
+                        Iterator descIterator = createIterator(desc);
+                        while(descIterator.hasNext()){
+                                Desc des = (Desc) descIterator.next();
+                                System.out.println(String.valueOf(index)+"."+des.getQuestionText());
+                                System.out.println("");
+                                index++;
+                        }
 
+                }
+                System.out.println("--------------------End Of Question Paper----------------------------");
         }
 
 

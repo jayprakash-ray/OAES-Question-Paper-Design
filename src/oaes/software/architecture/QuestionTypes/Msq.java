@@ -9,9 +9,27 @@ import java.util.ArrayList;
  * Msq Class inherits Questions class.
  * It respresents a format in which msq question will be manipulated i.e blueprint for MSQ Type Questions.
  */
-public class Msq extends Questions {
+public class Msq implements Questions {
+    private String qid;
+    private String topic;
+    private String subject;
+    private String qType;
+    private String QuestionText;
+    private int marks;
     private String options;
     private String ans;
+
+    public Msq(String qid, String topic, String subject, String qType, String questionText, int marks, String options, String ans) {
+        this.qid = qid;
+        this.topic = topic;
+        this.subject = subject;
+        this.qType = qType;
+        this.QuestionText = questionText;
+        this.marks = marks;
+        this.options = options;
+        this.ans = ans;
+    }
+
     /**
      * @param qid -> unique question id of a question
      * @param questionText -> Question Text
@@ -20,17 +38,13 @@ public class Msq extends Questions {
      * @param marks -> marks associated with the question
      */
 
-    public Msq(String qid, String topic, String subject, String qType, String questionText, int marks, String options, String ans) {
-        super(qid, topic, subject, qType, questionText, marks);
-        this.options = options;
-        this.ans = ans;
-    }
+
 
     public Msq() {
 
     }
 
-    public static ArrayList<Questions> getMsqs(ExamPattern examPattern) throws SQLException {
+    public ArrayList<Questions> getQuestions(ExamPattern examPattern) throws SQLException {
         JdbcConnection jdbcConnection = new JdbcConnectionProxy();
         //Delegation of Heavy Object -> Proxy Pattern
         return jdbcConnection.getQuestionByType(examPattern,"MSQ");
@@ -50,5 +64,9 @@ public class Msq extends Questions {
 
     public void setAns(String ans) {
         this.ans = ans;
+    }
+
+    public String getQuestionText() {
+        return QuestionText;
     }
 }
