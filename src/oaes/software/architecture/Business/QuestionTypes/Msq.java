@@ -1,6 +1,10 @@
-package oaes.software.architecture.QuestionTypes;
+package oaes.software.architecture.Business.QuestionTypes;
 
-import oaes.software.architecture.*;
+import oaes.software.architecture.Business.ExamPattern;
+import oaes.software.architecture.Business.QuestionIterator;
+import oaes.software.architecture.Business.Questions;
+import oaes.software.architecture.Data.JdbcConnection;
+import oaes.software.architecture.Data.QuestionDaoFactory;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -48,7 +52,7 @@ public class Msq implements Questions {
         return new QuestionIterator(questions);
     }
     public ArrayList<Questions> getQuestions(ExamPattern examPattern) throws SQLException {
-        JdbcConnection jdbcConnection = new JdbcConnectionProxy();
+        JdbcConnection jdbcConnection = new QuestionDaoFactory();
         //Delegation of Heavy Object -> Proxy Pattern
         return jdbcConnection.getQuestionByType(examPattern,"MSQ");
     }

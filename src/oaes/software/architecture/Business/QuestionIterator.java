@@ -1,4 +1,4 @@
-package oaes.software.architecture;
+package oaes.software.architecture.Business;
 
 import java.util.ArrayList;
 import java.util.Iterator;

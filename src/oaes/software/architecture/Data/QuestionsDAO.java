@@ -1,18 +1,20 @@
-package oaes.software.architecture;
+package oaes.software.architecture.Data;
 
-import oaes.software.architecture.QuestionTypes.Desc;
-import oaes.software.architecture.QuestionTypes.Mcq;
-import oaes.software.architecture.QuestionTypes.Msq;
+import oaes.software.architecture.Business.ExamPattern;
+import oaes.software.architecture.Business.QuestionTypes.Desc;
+import oaes.software.architecture.Business.QuestionTypes.Mcq;
+import oaes.software.architecture.Business.QuestionTypes.Msq;
+import oaes.software.architecture.Business.Questions;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public class JdbcConnectionImpl implements JdbcConnection {
+public class QuestionsDAO implements JdbcConnection {
     String DB_URL;
     String USER;
     String PASS;
 
-    public JdbcConnectionImpl(String db_url,String User,String pass)
+    public QuestionsDAO(String db_url, String User, String pass)
     {
         this.DB_URL = db_url;//"jdbc:mysql://localhost/oaes_question_bank";
         this.USER = User;//"root";

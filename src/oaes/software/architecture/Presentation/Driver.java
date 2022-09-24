@@ -1,14 +1,14 @@
-package oaes.software.architecture;
-import oaes.software.architecture.QuestionTypes.Desc;
-import oaes.software.architecture.QuestionTypes.Mcq;
-import oaes.software.architecture.QuestionTypes.Msq;
+package oaes.software.architecture.Presentation;
+
+import oaes.software.architecture.Business.AssesmentCenter;
+import oaes.software.architecture.Business.ExamPattern;
+import oaes.software.architecture.Business.QuestionPaper;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static oaes.software.architecture.ExamPattern.showPatterns;
-import static oaes.software.architecture.JdbcConnect.*;
+import static oaes.software.architecture.Business.ExamPattern.showPatterns;
 
 public class Driver {
     public static void main(String args[]) throws SQLException {

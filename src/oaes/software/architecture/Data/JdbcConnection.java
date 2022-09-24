@@ -1,4 +1,7 @@
-package oaes.software.architecture;
+package oaes.software.architecture.Data;
+
+import oaes.software.architecture.Business.ExamPattern;
+import oaes.software.architecture.Business.Questions;
 
 import java.util.ArrayList;
 

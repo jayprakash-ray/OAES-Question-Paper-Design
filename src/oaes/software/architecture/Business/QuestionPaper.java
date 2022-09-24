@@ -1,11 +1,10 @@
-package oaes.software.architecture;
+package oaes.software.architecture.Business;
 
-import oaes.software.architecture.QuestionTypes.Desc;
-import oaes.software.architecture.QuestionTypes.Mcq;
-import oaes.software.architecture.QuestionTypes.Msq;
+import oaes.software.architecture.Business.QuestionTypes.Desc;
+import oaes.software.architecture.Business.QuestionTypes.Mcq;
+import oaes.software.architecture.Business.QuestionTypes.Msq;
 
 import java.sql.SQLException;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Iterator;
 

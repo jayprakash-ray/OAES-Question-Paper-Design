@@ -1,4 +1,6 @@
-package oaes.software.architecture;
+package oaes.software.architecture.Business;
+
+import oaes.software.architecture.Business.QuestionPaper;
 
 import java.util.ArrayList;
 

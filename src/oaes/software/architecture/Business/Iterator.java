@@ -1,4 +1,4 @@
-package oaes.software.architecture;
+package oaes.software.architecture.Business;
 
 public interface Iterator {
     boolean hasNext();
