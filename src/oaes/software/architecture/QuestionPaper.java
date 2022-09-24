@@ -102,7 +102,7 @@ public class QuestionPaper {
                        ArrayList<Questions> mcqs = this.questions.get(qindex++);
 
                        //Iterator Design Pattern
-                        Iterator mcqIterator = createIterator(mcqs);
+                        QuestionIterator mcqIterator = Mcq.createIterator(mcqs);
                         while(mcqIterator.hasNext()){
                                 Mcq mcq = (Mcq) mcqIterator.next();
                                 System.out.println(String.valueOf(index)+"."+mcq.getQuestionText());
@@ -110,21 +110,14 @@ public class QuestionPaper {
                                 System.out.println("");
                                 index++;
                         }
-//                        for(int i = 0 ; i<mcqs.size(); i++)
-//                        {
-//                                Mcq mcq = (Mcq) mcqs.get(i);
-//                                System.out.println(String.valueOf(index)+"."+mcq.getQuestionText());
-//                                System.out.println(mcq.getOptions());
-//                                System.out.println("");
-//                                index++;
-//                        }
+
                 }
                 System.out.println("-------------------------------------------------------------------");
                 if(this.examPattern.getMsqCount()>0)
                 {
                         System.out.println("Section : Multiple Select Questions  [3 Marks Each]");
                         ArrayList<Questions> msqs = this.questions.get(qindex++);
-                        Iterator msqIterator = createIterator(msqs);
+                        QuestionIterator msqIterator = Msq.createIterator(msqs);
                         while(msqIterator.hasNext()){
                                 Msq msq = (Msq) msqIterator.next();
                                 System.out.println(String.valueOf(index)+"."+msq.getQuestionText());
@@ -140,7 +133,7 @@ public class QuestionPaper {
                 {
                         System.out.println("Section : Descriptive Questions [5 Marks Each]");
                         ArrayList<Questions> desc = this.questions.get(qindex++);
-                        Iterator descIterator = createIterator(desc);
+                        QuestionIterator descIterator = Desc.createIterator(desc);
                         while(descIterator.hasNext()){
                                 Desc des = (Desc) descIterator.next();
                                 System.out.println(String.valueOf(index)+"."+des.getQuestionText());

@@ -48,7 +48,10 @@ public class Mcq implements Questions {
         //Delegation of Heavy Object -> Proxy Pattern
         return jdbcConnection.getQuestionByType(examPattern,"MCQ");
     }
-
+    public static QuestionIterator createIterator(ArrayList<Questions> questions)
+    {
+        return new QuestionIterator(questions);
+    }
     public String getOptions() {
         return options;
     }

@@ -43,13 +43,15 @@ public class Msq implements Questions {
     public Msq() {
 
     }
-
+    public static QuestionIterator createIterator(ArrayList<Questions> questions)
+    {
+        return new QuestionIterator(questions);
+    }
     public ArrayList<Questions> getQuestions(ExamPattern examPattern) throws SQLException {
         JdbcConnection jdbcConnection = new JdbcConnectionProxy();
         //Delegation of Heavy Object -> Proxy Pattern
         return jdbcConnection.getQuestionByType(examPattern,"MSQ");
     }
-
     public String getOptions() {
         return options;
     }

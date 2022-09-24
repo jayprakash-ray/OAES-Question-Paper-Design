@@ -1,9 +1,6 @@
 package oaes.software.architecture.QuestionTypes;
 
-import oaes.software.architecture.ExamPattern;
-import oaes.software.architecture.JdbcConnection;
-import oaes.software.architecture.JdbcConnectionProxy;
-import oaes.software.architecture.Questions;
+import oaes.software.architecture.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -38,7 +35,10 @@ public class Desc implements Questions {
         //Delegation of Heavy Object -> Proxy Pattern
         return jdbcConnection.getQuestionByType(examPattern,"DESC");
     }
-
+    public static QuestionIterator createIterator(ArrayList<Questions> questions)
+    {
+        return new QuestionIterator(questions);
+    }
     public String getQuestionText() {
         return QuestionText;
     }
