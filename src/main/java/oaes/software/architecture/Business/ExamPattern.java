@@ -1,5 +1,8 @@
 package oaes.software.architecture.Business;
 
+import oaes.software.architecture.Data.JdbcConnection;
+import oaes.software.architecture.Data.QuestionDaoFactory;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -122,9 +125,10 @@ public class ExamPattern {
     {
         Scanner scanner = new Scanner(System.in);
         System.out.println("");
-        this.setPatternID("EXAM101");
+
         System.out.println("Enter Exam Pattern Name");
         this.setPatternName(scanner.nextLine());
+        this.setPatternID(this.patternName);
         System.out.println("Enter Course Name");
         this.setSubject(scanner.nextLine());
         System.out.println("Enter Total Marks");
@@ -135,13 +139,28 @@ public class ExamPattern {
         this.setMsqCount(scanner.nextInt());
         System.out.println("Enter No of Descriptive Questions :");
         this.setDescCount(scanner.nextInt());
+        JdbcConnection jdbcConnection = new QuestionDaoFactory();
+        //Delegation of Heavy Object -> Proxy Pattern
+        jdbcConnection.addExamPattern(this);
     }
-    public static void showPatterns(ArrayList<ExamPattern> examPatterns){
+    public int submitExamPattern(ExamPattern examPattern)
+    {
+        JdbcConnection jdbcConnection = new QuestionDaoFactory();
+       int row = jdbcConnection.addExamPattern(this);
+       return row;
+    }
+
+    public ArrayList<ExamPattern> displayPatterns(){
+        JdbcConnection jdbcConnection = new QuestionDaoFactory();
+        //Delegation of Heavy Object -> Proxy Pattern
+        ArrayList<ExamPattern> examPatterns = jdbcConnection.getExamPatterns();
         System.out.println("-------------Existing Exam Patterns--------------");
+        System.out.println(examPatterns);
         for(int i = 0 ; i<examPatterns.size(); i++){
             System.out.println(String.valueOf(i+1)+"." + examPatterns.get(i).getPatternName()) ;
         }
         System.out.println("--------------------------------------------------");
+        return examPatterns;
     }
 
 }

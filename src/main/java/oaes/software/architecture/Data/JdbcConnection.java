@@ -7,5 +7,7 @@ import java.util.ArrayList;
 
 public interface JdbcConnection {
     public
-    ArrayList<Questions> getQuestionByType(ExamPattern examPattern, String type);
+    ArrayList<Questions> getQuestionByType(ExamPattern examPattern, String type) throws ClassNotFoundException;
+    int addExamPattern(ExamPattern examPattern);
+    ArrayList<ExamPattern> getExamPatterns();
 }

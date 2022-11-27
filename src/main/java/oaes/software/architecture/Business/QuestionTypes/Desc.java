@@ -34,7 +34,7 @@ public class Desc implements Questions {
     public Desc() {
     }
 
-    public ArrayList<Questions> getQuestions(ExamPattern examPattern) throws SQLException {
+    public ArrayList<Questions> getQuestions(ExamPattern examPattern) throws SQLException, ClassNotFoundException {
         JdbcConnection jdbcConnection = new QuestionDaoFactory();
         //Delegation of Heavy Object -> Proxy Pattern
         return jdbcConnection.getQuestionByType(examPattern,"DESC");

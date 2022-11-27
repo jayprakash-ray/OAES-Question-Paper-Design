@@ -10,10 +10,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * Mcq Class inherits Questions class.
- * It respresents a format in which mcq question will be manipulated i.e blueprint for MCQ Type Questions.
+ * Msq Class inherits Questions class.
+ * It respresents a format in which msq question will be manipulated i.e blueprint for MSQ Type Questions.
  */
-public class Mcq implements Questions {
+public class Msq implements Questions {
     private String qid;
     private String topic;
     private String subject;
@@ -23,12 +23,12 @@ public class Mcq implements Questions {
     private String options;
     private String ans;
 
-    public Mcq(String qid, String topic, String subject, String qType, String questionText, int marks, String options, String ans) {
+    public Msq(String qid, String topic, String subject, String qType, String questionText, int marks, String options, String ans) {
         this.qid = qid;
         this.topic = topic;
         this.subject = subject;
         this.qType = qType;
-        QuestionText = questionText;
+        this.QuestionText = questionText;
         this.marks = marks;
         this.options = options;
         this.ans = ans;
@@ -44,17 +44,17 @@ public class Mcq implements Questions {
 
 
 
-    public Mcq() {
-    }
+    public Msq() {
 
-    public ArrayList<Questions> getQuestions(ExamPattern examPattern) throws SQLException {
-        JdbcConnection jdbcConnection = new QuestionDaoFactory();
-        //Delegation of Heavy Object -> Proxy Pattern
-        return jdbcConnection.getQuestionByType(examPattern,"MCQ");
     }
     public static QuestionIterator createIterator(ArrayList<Questions> questions)
     {
         return new QuestionIterator(questions);
+    }
+    public ArrayList<Questions> getQuestions(ExamPattern examPattern) throws SQLException, ClassNotFoundException {
+        JdbcConnection jdbcConnection = new QuestionDaoFactory();
+        //Delegation of Heavy Object -> Proxy Pattern
+        return jdbcConnection.getQuestionByType(examPattern,"MSQ");
     }
     public String getOptions() {
         return options;

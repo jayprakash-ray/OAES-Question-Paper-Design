@@ -16,6 +16,11 @@ public class QuestionPaper {
         private String qpName;
         private char setId;
         private ExamPattern examPattern;
+
+        public ArrayList<ArrayList<Questions>> getQuestions() {
+                return questions;
+        }
+
         private ArrayList<ArrayList<Questions>> questions;
         private QuestionFactory questionFactory;
 
@@ -50,7 +55,7 @@ public class QuestionPaper {
         }
 
 
-        public void generateQuestionPaper(ExamPattern examPattern) throws SQLException {
+        public void generateQuestionPaper(ExamPattern examPattern) throws SQLException, ClassNotFoundException {
                 int noOfMcq = examPattern.getMcqCount();
                 int noOfmsq = examPattern.getMsqCount();
                 int noOfdesc = examPattern.getDescCount();

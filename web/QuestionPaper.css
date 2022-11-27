@@ -1,0 +1,23 @@
+h2,h3{
+
+    display: flex;
+
+    justify-content: center;
+
+}
+body {margin:1%;padding:1%}
+
+.nav {
+    display: flex;
+
+    /* This is used to make the navbar sticky, So that the
+        navbar stays at the top part even if we scroll */
+    position: sticky;
+    align-items: center;
+    justify-content: center;
+    top: 0px;
+
+    /*it specifies the mouse cursor to be displayed
+        when it is pointed over the element */
+    cursor: pointer;
+}

@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class QuestionFactory {
-    ArrayList<Questions> getQuestions(String qtype, ExamPattern examPattern) throws SQLException {
+    ArrayList<Questions> getQuestions(String qtype, ExamPattern examPattern) throws SQLException, ClassNotFoundException {
         ArrayList<Questions> questions = new ArrayList<Questions>();
         if(qtype.equals("MCQ"))
         {

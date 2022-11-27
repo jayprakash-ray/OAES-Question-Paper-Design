@@ -8,10 +8,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static oaes.software.architecture.Business.ExamPattern.showPatterns;
+//import static oaes.software.architecture.Business.ExamPattern.showPatterns;
 
 public class Driver {
-    public static void main(String args[]) throws SQLException {
+    public static void main(String args[]) throws SQLException, ClassNotFoundException {
         int choice;
         Scanner scanner = new Scanner(System.in);
 //        int patternCount = 0;
@@ -31,11 +31,10 @@ public class Driver {
             System.out.println("6. Exit");
             System.out.println("Enter Your Choice : ");
             choice = scanner.nextInt();
-
+            ExamPattern pattern = new ExamPattern();
             switch (choice)
             {
                 case 1 :
-                    ExamPattern pattern = new ExamPattern();
                     pattern.getExamPattern();
                     if(pattern.getMcqCount()*2+ pattern.getMsqCount()*3+ pattern.getDescCount()*5 != pattern.getTotalMarks()) {
                         System.out.println("Total Marks is not correct ! Please check.");
@@ -45,15 +44,14 @@ public class Driver {
                     examPatterns.add(pattern);
                     break;
                 case 2:
-                    showPatterns(examPatterns);
+                    examPatterns = pattern.displayPatterns();
                     break;
                 case 3:
-                    if(examPatterns.size() == 0)
-                    {
+                    examPatterns = pattern.displayPatterns();
+                    if(examPatterns.size() == 0) {
                         System.out.println("No Patterns Available :( Please Create Exam Pattern to Generate Question Papers!");
                         break;
                     }
-                    showPatterns(examPatterns);
                     System.out.println("Select Exam Pattern Serial No. to Proceed :");
                     int patternIndex = scanner.nextInt();
                     ExamPattern selectedPattern = examPatterns.get(patternIndex-1);
