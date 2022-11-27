@@ -41,6 +41,7 @@
         ExamPattern examPattern = (ExamPattern) session.getAttribute("selectedPattern");
         QuestionPaper qp = new QuestionPaper();
         qp.generateQuestionPaper(examPattern);
+        session.setAttribute("questionPaper",qp);
         int index = 1;
         int qindex = 0; %>
          <hr>
